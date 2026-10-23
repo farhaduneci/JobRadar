@@ -66,18 +66,13 @@
   },
   "skip_urls_file": "skip_urls.txt",
   "llm": {
-    "enabled": false,
+    "enabled": true,
     "provider": "jev",
     "profile": "profile.md",
     "fit_min": 2,
     "role_match_min": 0.5,
     "language_block_max": 0.9,
-    "eligibility_block_max": 0.8,
-    "fallback": {
-      "provider": "workers-ai",
-      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      "min_fit": 3
-    }
+    "eligibility_block_max": 0.8
   },
   "notify": {
     "channel": "print"

@@ -1,6 +1,6 @@
 """Optional fit gate: one model call per unseen job description.
 
-providers (config.json "llm"."provider", with an optional "fallback" block of the same shape, used when the primary errors):
+providers (config.json "llm"."provider"):
   jev         TypeSafe System One (key in $TYPESAFE_API_KEY): typed questions from prompts/jev_questions.json answered against the
               profile and posting, as scores and probabilities. Cheap and consistent; enough for a yes/no filter.
   workers-ai  Cloudflare Workers AI ($CLOUDFLARE_ACCOUNT_ID, $CLOUDFLARE_API_TOKEN, "model" e.g. "@cf/meta/llama-3.3-70b-instruct-fp8-fast")
@@ -91,19 +91,12 @@ def judge_with(cfg, block, r, company):
 
 
 def judge(cfg, r, company):
-    """The primary provider's answer; on an error the fallback's, if configured."""
-    try:
-        return judge_with(cfg, cfg["llm"], r, company)
-    except Exception:
-        if not cfg["llm"].get("fallback"):
-            raise
-        return judge_with(cfg, cfg["llm"]["fallback"], r, company)
+    return judge_with(cfg, cfg["llm"], r, company)
 
 
 def gate(cfg, a):
-    """Why the answer rules a posting out, else None. Thresholds come from the block of the provider that answered."""
-    llm = cfg["llm"]
-    b = llm if a.get("by", llm["provider"]) == llm["provider"] else llm.get("fallback", llm)
+    """Why the answer rules a posting out, else None."""
+    b = cfg["llm"]
     if "match" in a:
         if not a["match"]:
             return a["reason"] or "not a match"

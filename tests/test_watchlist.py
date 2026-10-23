@@ -86,32 +86,11 @@ def test_llm_gate_and_parse():
     assert llm.gate(CFG, {"match": False, "fit": 5, "reason": "needs German"}) == "needs German"
 
 
-JEV = dict(CFG, llm={"enabled": True, "provider": "jev", "fit_min": 2, "fallback": {"provider": "workers-ai", "model": "m", "min_fit": 3}})
+JEV = dict(CFG, llm={"enabled": True, "provider": "jev", "fit_min": 2})
 
 
-def test_jev_gate_uses_thresholds_and_fallback_block():
+def test_jev_gate_uses_thresholds():
     ok = {"fit": 3.0, "role_match": 0.9, "language_block": 0.1, "eligibility_block": 0.1, "by": "jev"}
     assert llm.gate(JEV, ok) is None
     assert llm.gate(JEV, dict(ok, language_block=0.95, fit=1)) == "language, low fit"
-    fb = {"match": True, "fit": 2.5, "reason": "", "by": "workers-ai"}
-    assert llm.gate(JEV, fb).startswith("fit 2.5 below 3")  # the fallback's own min_fit, not jev's fit_min
-
-
-def test_primary_error_falls_back(monkeypatch):
-    def fake(cfg, block, r, co):
-        if block["provider"] == "jev":
-            raise RuntimeError("jev down")
-        return {"match": True, "fit": 4.0, "reason": "", "by": block["provider"]}
-    monkeypatch.setattr(llm, "judge_with", fake)
-    assert llm.judge(JEV, row(1, "x"), "Acme")["by"] == "workers-ai"
-    monkeypatch.setitem(JEV["llm"], "fallback", None)
-    with pytest.raises(RuntimeError):
-        llm.judge(JEV, row(1, "x"), "Acme")
-
-
-def test_no_llm_company_matches_on_cheap_gates(env):
-    board, sent, calls, _, tmp = env
-    c = {"name": "Shop", "slug": "shop", "boards": ["greenhouse:shop"], "no_llm": True}
-    board["rows"] = [row(1, "Backend Engineer")]
-    r = core.run_company(c, types.SimpleNamespace(rescreen=False, dry=False), CFG, set())
-    assert r["matches"] == ["Backend Engineer"] and not calls
+    assert llm.gate(JEV, dict(ok, role_match=0.2)) == "role mismatch"

@@ -47,12 +47,11 @@ python3 -m watchlist run                # every later run alerts on new matches
 
 - `config.json`: `titles` include/exclude, `title_drop` regexes, `locations` (include names, remote words, exclude regex), `wording_drop` (JD phrases that rule a role out),
   `skip_urls_file`, `llm`, `notify`. Per company in `companies.json` (copy of `companies.example.json`): `titles_extra`, `titles_exclude`, `no_llm` (skip the AI gate, e.g. retail roles), `enabled`.
-- AI gate (`llm.enabled`, off by default). The filter is a yes/no on fit, language and eligibility, so one provider is enough:
+- AI gate (`llm.enabled`, on by default with Jev). The filter is a yes/no on fit, language and eligibility, so one provider is enough:
   - `jev` ([TypeSafe](https://typesafe.ai) System One, `TYPESAFE_API_KEY`): typed questions in `prompts/jev_questions.json`, answered as a fit score and probabilities,
-    thresholds `fit_min`, `role_match_min`, `language_block_max`, `eligibility_block_max`. Cheap and consistent: the default.
+    thresholds `fit_min`, `role_match_min`, `language_block_max`, `eligibility_block_max`. Cheap and consistent: the default. Set `enabled` to `false` for gates only.
   - `workers-ai` (Cloudflare, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `model`), `anthropic` (`ANTHROPIC_API_KEY`, `model`) or `command` (any shell command, prompt on stdin):
     a generative model prompted by `prompts/fit.md`, answering `{match, fit, reason}`, threshold `min_fit`.
-  - `fallback`: a second provider block, used only when the primary errors (e.g. Jev down, Workers AI answers instead).
   Your background and constraints go in `profile.md`. A job description is judged once; other locations of the same posting reuse the answer.
 - Alerts (`notify.channel`): `print`, `telegram` (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`), `ntfy` (`topic`), `webhook` (`url`). Message text lives in `templates/`.
 - Everything personal (`config.json`, `companies.json`, `profile.md`, `skip_urls.txt`, `data/`) is gitignored.
