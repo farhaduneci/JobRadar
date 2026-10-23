@@ -1,0 +1,9 @@
+[project]
+name = "watchlist"
+version = "0.1.0"
+description = "Poll companies' careers pages, screen new postings, alert on matches"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
