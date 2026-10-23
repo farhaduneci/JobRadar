@@ -7,10 +7,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from watchlist import core, llm, screen  # noqa: E402
 
 JD = "Python services, Kubernetes. Hybrid in Vilnius."
-GOOD = {"match": True, "fit": 4.0, "reason": "stack matches"}
+GOOD = {"fit": 3.0, "role_match": 0.9, "language_block": 0.1, "eligibility_block": 0.1}
 CFG = {"titles": {"include": ["engineer"], "exclude": ["site reliability"]}, "title_drop": [],
        "locations": {"include": ["Lithuania", "Vilnius"], "remote_words": ["remote"], "allow_remote": True, "exclude_regex": r"\b(new york|usa)\b"},
-       "wording_drop": {"no sponsorship": r"cannot sponsor"}, "llm": {"enabled": True, "provider": "command", "command": "x", "min_fit": 3}}
+       "wording_drop": {"no sponsorship": r"cannot sponsor"}, "llm": {"enabled": True, "fit_min": 2}}
 
 
 def row(i, title, loc="Vilnius, Lithuania", desc=JD):
@@ -79,18 +79,16 @@ def test_cheap_gate_reasons():
     assert g(row(1, "Backend Engineer", desc="We cannot sponsor visas")) == "wording: no sponsorship"
 
 
-def test_llm_gate_and_parse():
-    assert llm.parse('sure: {"match": true, "fit": 4, "reason": "ok"}') == {"match": True, "fit": 4.0, "reason": "ok"}
-    assert llm.gate(CFG, GOOD) is None
-    assert llm.gate(CFG, {"match": True, "fit": 2, "reason": ""}).startswith("fit 2")
-    assert llm.gate(CFG, {"match": False, "fit": 5, "reason": "needs German"}) == "needs German"
-
-
-JEV = dict(CFG, llm={"enabled": True, "provider": "jev", "fit_min": 2})
-
-
 def test_jev_gate_uses_thresholds():
-    ok = {"fit": 3.0, "role_match": 0.9, "language_block": 0.1, "eligibility_block": 0.1, "by": "jev"}
-    assert llm.gate(JEV, ok) is None
-    assert llm.gate(JEV, dict(ok, language_block=0.95, fit=1)) == "language, low fit"
-    assert llm.gate(JEV, dict(ok, role_match=0.2)) == "role mismatch"
+    assert llm.gate(CFG, GOOD) is None
+    assert llm.gate(CFG, dict(GOOD, language_block=0.95, fit=1)) == "language, low fit"
+    assert llm.gate(CFG, dict(GOOD, role_match=0.2)) == "role mismatch"
+    assert llm.gate(CFG, dict(GOOD, eligibility_block=0.8)) == "eligibility"
+
+
+def test_no_llm_company_matches_on_cheap_gates(env):
+    board, sent, calls, _, tmp = env
+    c = {"name": "Shop", "slug": "shop", "boards": ["greenhouse:shop"], "no_llm": True}
+    board["rows"] = [row(1, "Backend Engineer")]
+    r = core.run_company(c, types.SimpleNamespace(rescreen=False, dry=False), CFG, set())
+    assert r["matches"] == ["Backend Engineer"] and not calls

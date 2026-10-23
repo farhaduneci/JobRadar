@@ -255,7 +255,7 @@ def cmd_report(args):
             print("  errors: " + ", ".join(f"{k} x{v}" for k, v in errs.most_common()))
         pending = [p for p in P.values() if p.get("stage") == "pending" and not p.get("closed")]
         if pending:
-            flags.append(f"{c['slug']}: {len(pending)} postings waiting on the LLM (key missing or provider down?)")
+            flags.append(f"{c['slug']}: {len(pending)} postings waiting on Jev (TYPESAFE_API_KEY missing or Jev down?)")
         unsent = [p for p in P.values() if p.get("stage") == "match" and not p.get("notified") and not p.get("closed")]
         if unsent:
             flags.append(f"{c['slug']}: {len(unsent)} matches not delivered (notify channel broken?)")

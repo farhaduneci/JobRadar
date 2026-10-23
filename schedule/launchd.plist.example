@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!-- Copy to ~/Library/LaunchAgents/com.example.watchlist.plist, replace /path/to/watchlist, then:
      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.example.watchlist.plist
-     Secrets (ANTHROPIC_API_KEY, TELEGRAM_BOT_TOKEN, ...) go in EnvironmentVariables or a wrapper script that sources them. -->
+     Secrets (TYPESAFE_API_KEY, TELEGRAM_BOT_TOKEN, ...) go in EnvironmentVariables or a wrapper script that sources them. -->
 <plist version="1.0">
 <dict>
   <key>Label</key><string>com.example.watchlist</string>
@@ -13,6 +13,6 @@
   <key>StandardOutPath</key><string>/path/to/watchlist/data/logs/run.log</string>
   <key>StandardErrorPath</key><string>/path/to/watchlist/data/logs/run.log</string>
   <key>EnvironmentVariables</key>
-  <dict><key>ANTHROPIC_API_KEY</key><string></string></dict>
+  <dict><key>TYPESAFE_API_KEY</key><string></string></dict>
 </dict>
 </plist>

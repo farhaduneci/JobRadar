@@ -31,7 +31,7 @@ verdict), `data/runs.jsonl` (one line per company per poll). Pick the mode from 
 `report --days 1`; exit 0 and no title-gate line means clean. Clear each flag by cause:
 - **no run / over 26 h**: the scheduler is not firing; check its log (`data/logs/run.log`).
 - **last run suspect**: a board errored or shrank under half. Re-probe it (`docs/finding-boards.md`); a moved token or changed ATS means re-running `add`. A real shrink clears itself on the next healthy run.
-- **waiting on the AI gate**: key missing or provider down. Postings retry every run.
+- **waiting on the AI gate**: `TYPESAFE_API_KEY` missing or Jev down. Postings retry every run.
 - **matches not delivered**: the alert channel is broken; fix it, matches go out on the next run.
 - **title-gate drops that look technical**: read each title. One in a target family is a miss: add a word to that company's `titles_extra` (a miss every
   company would hit belongs in `config.json` titles), then `run --company <slug> --rescreen`.

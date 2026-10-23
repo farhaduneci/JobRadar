@@ -5,7 +5,7 @@ Poll companies' careers pages, screen new postings, alert on matches. Stdlib-onl
 ## Map
 
 - `watchlist/boards.py`: one fetcher per ATS (`f_<ats>`), `board_of(url)`, `fetch(ats, token)`. New ATS = a fetcher + `FETCHERS` entry + test.
-- `watchlist/screen.py`: cheap gates from `config.json` (title, location, wording). `llm.py`: optional AI fit gate (jev default; workers-ai, anthropic, command). `notify.py`: alert channels. `core.py`: poll/diff/state/report. `__main__.py`: CLI.
+- `watchlist/screen.py`: cheap gates from `config.json` (title, location, wording). `llm.py`: optional AI fit gate (Jev). `notify.py`: alert channels. `core.py`: poll/diff/state/report. `__main__.py`: CLI.
 - `config.json`, `companies.json`, `profile.md`, `skip_urls.txt`, `data/`: personal, gitignored; `*.example.*` files are the shipped defaults.
 - `templates/`, `prompts/`: message and LLM prompt text. Static text lives there, never inline in code.
 - `schedule/`: launchd / cron examples. `skills/watchlist/SKILL.md`: Claude Code skill. `docs/finding-boards.md`: how to find a company's board.
