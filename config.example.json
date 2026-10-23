@@ -67,7 +67,6 @@
   "skip_urls_file": "skip_urls.txt",
   "llm": {
     "enabled": true,
-    "provider": "jev",
     "profile": "profile.md",
     "fit_min": 2,
     "role_match_min": 0.5,
