@@ -6,10 +6,13 @@ Pure standard library Python, no database, no scraping browser.
 
 ## ⚙️ How it works
 
-```
-companies.json ──▶ boards.py (ATS fetchers) ──▶ diff vs data/state/<co>.json ──▶ new postings
-                                                                                   │
-        alert (print / Telegram / ntfy / webhook) ◀── AI fit gate (optional) ◀── cheap gates (config.json)
+```mermaid
+flowchart LR
+    A[companies.json] --> B[boards.py<br/>ATS fetchers]
+    B --> C[diff vs<br/>data/state]
+    C -->|new postings| D[cheap gates<br/>config.json]
+    D --> E[AI gate<br/>Jev]
+    E --> F[alert<br/>print / Telegram / ntfy / webhook]
 ```
 
 - 🔇 **Baseline run**: the first poll of a company is silent; what is open is marked seen, so only later postings alert.
