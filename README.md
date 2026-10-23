@@ -1,10 +1,10 @@
-# watchlist
+# 🔭 watchlist
 
 Watch favourite companies' careers pages. Each poll reads the companies' public job boards, finds postings not seen before, screens them
 (title, location, wording rules, optionally an AI fit check against your profile) and alerts you on each new match.
 Pure standard library Python, no database, no scraping browser.
 
-## How it works
+## ⚙️ How it works
 
 ```
 companies.json ──▶ boards.py (ATS fetchers) ──▶ diff vs data/state/<co>.json ──▶ new postings
@@ -12,14 +12,14 @@ companies.json ──▶ boards.py (ATS fetchers) ──▶ diff vs data/state/<
         alert (print / Telegram / ntfy / webhook) ◀── AI fit gate (optional) ◀── cheap gates (config.json)
 ```
 
-- **Baseline run**: the first poll of a company is silent; what is open is marked seen, so only later postings alert.
-- **Broken-board guard**: a fetch that errors, comes back empty or under half the last count closes nothing and alerts once on the second failure in a row.
-- **AI cache**: a job description is judged once; the same posting in another location reuses the answer.
-- **Health report**: `report` digests the run log and flags a silent scheduler, suspect boards, undelivered matches, and technical-looking titles the gate dropped.
+- 🔇 **Baseline run**: the first poll of a company is silent; what is open is marked seen, so only later postings alert.
+- 🛡️ **Broken-board guard**: a fetch that errors, comes back empty or under half the last count closes nothing and alerts once on the second failure in a row.
+- 💾 **AI cache**: a job description is judged once; the same posting in another location reuses the answer.
+- 🩺 **Health report**: `report` digests the run log and flags a silent scheduler, suspect boards, undelivered matches, and technical-looking titles the gate dropped.
 
-Supported boards: Greenhouse, Ashby, Lever, Recruitee, Personio, Workable, SmartRecruiters, Join, Teamtailor, plus location searches on Apple, Google and Microsoft careers.
+📋 Supported boards: Greenhouse, Ashby, Lever, Recruitee, Personio, Workable, SmartRecruiters, Join, Teamtailor, plus location searches on Apple, Google and Microsoft careers.
 
-## Setup
+## 🚀 Setup
 
 ```bash
 git clone <this repo> && cd watchlist
@@ -33,7 +33,7 @@ python3 -m watchlist run                # every later run alerts on new matches
 
 `companies.example.json` is a sample list; `companies.json` is yours and gitignored. To find a company's board token see [docs/finding-boards.md](docs/finding-boards.md).
 
-## Commands
+## 🧰 Commands
 
 | Command | Does |
 |---|---|
@@ -43,7 +43,7 @@ python3 -m watchlist run                # every later run alerts on new matches
 | `report [--days N]` | health digest, exit 1 when something needs a look |
 | `scout FILE` | rank candidate companies (`Name \| careers URL` lines) by roles passing the gates today |
 
-## Configuration
+## 🎛️ Configuration
 
 - `config.json`: `titles` include/exclude, `title_drop` regexes, `locations` (include names, remote words, exclude regex), `wording_drop` (JD phrases that rule a role out),
   `skip_urls_file`, `llm`, `notify`. Per company in `companies.json` (copy of `companies.example.json`): `titles_extra`, `titles_exclude`, `no_llm` (skip the AI gate, e.g. retail roles), `enabled`.
@@ -57,15 +57,15 @@ python3 -m watchlist run                # every later run alerts on new matches
 - Alerts (`notify.channel`): `print`, `telegram` (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`), `ntfy` (`topic`), `webhook` (`url`). Message text lives in `templates/`.
 - Everything personal (`config.json`, `companies.json`, `profile.md`, `skip_urls.txt`, `data/`) is gitignored.
 
-## Schedule
+## ⏰ Schedule
 
 `schedule/launchd.plist.example` (macOS) or `schedule/crontab.example`. Run `report --days 1` daily after the poll; it exits 1 when something needs a look.
 
-## Claude Code skill
+## 🤖 Claude Code skill
 
 `skills/watchlist/SKILL.md` wraps the CLI as a `/watchlist` skill (status, add, remove, run, report, install). Copy it to `~/.claude/skills/watchlist/`.
 
-## Tests
+## 🧪 Tests
 
 ```bash
 python3 -m pip install pytest && python3 -m pytest -q
@@ -73,6 +73,10 @@ python3 -m pip install pytest && python3 -m pytest -q
 
 Adding an ATS: a `f_<name>(token)` fetcher in `watchlist/boards.py` returning rows `{id, title, url, loc, date, desc}`, a `FETCHERS` entry, and a test.
 
-## License
+## 📄 License
 
 MIT, see [LICENSE](LICENSE).
+
+---
+
+Built with ❤️ by Farhad ∙ Istanbul, October 2026.
