@@ -1,0 +1,16 @@
+{
+  "fit": {"type": "score",
+    "instructions": "How well does `candidate` match the core technical requirements of `job` (the must-haves, not nice-to-haves)? Judge only skills and experience, not location or visa.",
+    "criteria": [
+      "Poor: the core stack or domain is something the candidate has no experience with.",
+      "Weak: a few overlaps, but the main required language, framework or domain is missing.",
+      "Partial: the main language matches but important required tools or domain experience are missing.",
+      "Good: most must-haves are covered by the candidate's strong skills, with one or two gaps.",
+      "Excellent: the must-haves read like the candidate's own résumé."]},
+  "role_match": {"type": "noul",
+    "instructions": "Is `job` the kind of role `candidate` says they want (see the candidate's wants and not-interested list), rather than a different function or specialism?"},
+  "language_block": {"type": "noul",
+    "instructions": "Does `job` require fluency in a language that `candidate` does not speak?"},
+  "eligibility_block": {"type": "noul",
+    "instructions": "Does `job` contain an eligibility rule that excludes `candidate`: requires existing right to work in a country the candidate cannot work in with no sponsorship, says it cannot sponsor visas, requires citizenship or security clearance, or is remote but restricted to residents of other countries?"}
+}

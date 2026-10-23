@@ -1,0 +1,2 @@
+🔔 {company} just posted {n} roles that fit.
+{roles}

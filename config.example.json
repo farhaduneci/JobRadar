@@ -1,0 +1,88 @@
+{
+  "titles": {
+    "include": [
+      "engineer",
+      "developer",
+      "backend",
+      "back-end",
+      "platform",
+      "data engineer",
+      "devops",
+      "software"
+    ],
+    "exclude": [
+      "intern",
+      "internship",
+      "frontend",
+      "front-end",
+      "mobile",
+      "android",
+      "ios",
+      "qa",
+      "test engineer",
+      "sales",
+      "support",
+      "manager",
+      "director",
+      "recruiter"
+    ]
+  },
+  "title_drop": [
+    "\\bstaff\\b",
+    "\\bprincipal\\b",
+    "\\bhead of\\b"
+  ],
+  "locations": {
+    "include": [
+      "Germany",
+      "Berlin",
+      "Munich",
+      "Netherlands",
+      "Amsterdam",
+      "Portugal",
+      "Lisbon",
+      "Spain",
+      "Barcelona",
+      "Ireland",
+      "Dublin",
+      "United Kingdom",
+      "UK",
+      "London"
+    ],
+    "remote_words": [
+      "remote",
+      "europe",
+      "emea",
+      "anywhere",
+      "worldwide",
+      "eu"
+    ],
+    "allow_remote": true,
+    "exclude_regex": "\\b(united states|usa|us|u\\.s\\.|new york|san francisco|california|texas|seattle|boston|chicago|austin|canada|toronto|americas|latam|latin america|brazil|mexico|india|bangalore|australia|singapore|japan|apac|israel)\\b"
+  },
+  "wording_drop": {
+    "no sponsorship": "(cannot|can't|unable to|do not|don't|will not|won't) (provide |offer )?(visa )?sponsor",
+    "citizens only": "(must be|only) (a )?(u\\.?s\\.? )?citizen|security clearance required"
+  },
+  "skip_urls_file": "skip_urls.txt",
+  "llm": {
+    "enabled": false,
+    "provider": "jev",
+    "profile": "profile.md",
+    "fit_min": 2,
+    "role_match_min": 0.5,
+    "language_block_max": 0.9,
+    "eligibility_block_max": 0.8,
+    "fallback": {
+      "provider": "workers-ai",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "min_fit": 3
+    }
+  },
+  "notify": {
+    "channel": "print"
+  },
+  "report": {
+    "technical_title_regex": "engineer|developer|devops|sre|architect|platform|backend|data"
+  }
+}

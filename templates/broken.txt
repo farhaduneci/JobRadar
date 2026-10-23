@@ -1,0 +1,1 @@
+🚨 {company}'s job board failed to read twice in a row. Check its board token in companies.json.
