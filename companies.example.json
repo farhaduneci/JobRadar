@@ -1,0 +1,8 @@
+{
+ "companies": [
+  {"name": "Stripe", "slug": "stripe", "careers_url": "https://stripe.com/jobs", "boards": ["greenhouse:stripe"], "titles_extra": [], "enabled": true},
+  {"name": "Airbnb", "slug": "airbnb", "careers_url": "https://careers.airbnb.com/", "boards": ["greenhouse:airbnb"], "titles_extra": [], "titles_exclude": ["Site Reliability"], "enabled": true},
+  {"name": "Linear", "slug": "linear", "careers_url": "https://linear.app/careers", "boards": ["ashby:linear"], "titles_extra": [], "enabled": true},
+  {"name": "Spotify", "slug": "spotify", "careers_url": "https://www.lifeatspotify.com/jobs", "boards": ["lever:spotify"], "titles_extra": [], "enabled": true}
+ ]
+}
