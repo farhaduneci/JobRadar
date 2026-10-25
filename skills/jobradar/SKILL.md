@@ -1,12 +1,12 @@
 ---
-name: watchlist
+name: jobradar
 description: Watch list of companies' careers pages, polled on a schedule for new postings that pass the configured screen, each new match alerted on the configured channel. Use to add or drop a company, check what is matching now, run a poll, install the schedule, or review run health.
 argument-hint: [status | add <company or careers URL> | remove <slug> | run [slug] | report | install]
 ---
 
-# Watchlist
+# JobRadar
 
-One CLI does the work: `python3 -m watchlist <command>` from the repo root (or with `WATCHLIST_HOME` pointing at it).
+One CLI does the work: `python3 -m jobradar <command>` from the repo root (or with `JOBRADAR_HOME` pointing at it).
 Files: `companies.json` (the list, personal), `config.json` (screen, LLM gate, alert channel), `data/state/<slug>.json` (every posting seen, with its
 verdict), `data/runs.jsonl` (one line per company per poll). Pick the mode from `$ARGUMENTS`; none means `status`.
 
@@ -17,8 +17,8 @@ verdict), `data/runs.jsonl` (one line per company per poll). Pick the mode from 
 1. Find every board the company posts on (`docs/finding-boards.md`). Often several: a global board plus per-country ones. Done when each
    board's count is known and the sum matches what the careers page shows.
 2. The board must be one `boards.py` reads (`FETCHERS`). For any other ATS add a fetcher with a test first.
-3. `python3 -m watchlist add --name <Name> --careers-url <url> --board <ats>:<token> [--board ...]`. It probes each board and refuses a dead one.
-4. Baseline: `python3 -m watchlist run --company <slug>`. It screens what is open, sends nothing, marks it seen, so only later postings alert.
+3. `python3 -m jobradar add --name <Name> --careers-url <url> --board <ats>:<token> [--board ...]`. It probes each board and refuses a dead one.
+4. Baseline: `python3 -m jobradar run --company <slug>`. It screens what is open, sends nothing, marks it seen, so only later postings alert.
 5. Show the roles matching right now (`list`).
 
 ## remove `<slug>`
@@ -38,4 +38,4 @@ verdict), `data/runs.jsonl` (one line per company per poll). Pick the mode from 
 Any code change ends with `python3 -m pytest -q` green.
 
 ## install
-Confirm first. macOS: `schedule/launchd.plist.example`; Linux: `schedule/crontab.example`. Both run `python3 -m watchlist run` and append to `data/logs/run.log`.
+Confirm first. macOS: `schedule/launchd.plist.example`; Linux: `schedule/crontab.example`. Both run `python3 -m jobradar run` and append to `data/logs/run.log`.

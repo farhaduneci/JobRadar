@@ -1,2 +1,2 @@
-# crontab -e ; daily at 15:00. Replace /path/to/watchlist. Export secrets here or source an env file.
-0 15 * * * mkdir -p /path/to/watchlist/data/logs && cd /path/to/watchlist && . ./.env 2>/dev/null; python3 -m watchlist run >> data/logs/run.log 2>&1
+# crontab -e ; daily at 15:00. Replace /path/to/JobRadar. Export secrets here or source an env file.
+0 15 * * * mkdir -p /path/to/JobRadar/data/logs && cd /path/to/JobRadar && . ./.env 2>/dev/null; python3 -m jobradar run >> data/logs/run.log 2>&1

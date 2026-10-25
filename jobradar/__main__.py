@@ -1,4 +1,4 @@
-"""python3 -m watchlist <command>. See README.md; `run` polls, `add` registers a company, `report` is the health digest."""
+"""python3 -m jobradar <command>. See README.md; `run` polls, `add` registers a company, `report` is the health digest."""
 import argparse, os, sys
 
 from . import core
@@ -6,7 +6,7 @@ from .paths import STATE
 
 
 def main():
-    ap = argparse.ArgumentParser(prog="watchlist", description=__doc__.split("\n")[0])
+    ap = argparse.ArgumentParser(prog="jobradar", description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run", help="poll every enabled company (or one); a company with no state gets a silent baseline")
     r.add_argument("--company"); r.add_argument("--rescreen", action="store_true", help="re-run the gates on every open posting")

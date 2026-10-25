@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Copy to ~/Library/LaunchAgents/com.example.watchlist.plist, replace /path/to/watchlist, then:
-     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.example.watchlist.plist
+<!-- Copy to ~/Library/LaunchAgents/com.example.jobradar.plist, replace /path/to/JobRadar, then:
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.example.jobradar.plist
      Secrets (TYPESAFE_API_KEY, TELEGRAM_BOT_TOKEN, ...) go in EnvironmentVariables or a wrapper script that sources them. -->
 <plist version="1.0">
 <dict>
-  <key>Label</key><string>com.example.watchlist</string>
-  <key>WorkingDirectory</key><string>/path/to/watchlist</string>
+  <key>Label</key><string>com.example.jobradar</string>
+  <key>WorkingDirectory</key><string>/path/to/JobRadar</string>
   <key>ProgramArguments</key>
-  <array><string>/usr/bin/python3</string><string>-m</string><string>watchlist</string><string>run</string></array>
+  <array><string>/usr/bin/python3</string><string>-m</string><string>jobradar</string><string>run</string></array>
   <key>StartCalendarInterval</key><dict><key>Hour</key><integer>15</integer><key>Minute</key><integer>0</integer></dict>
-  <key>StandardOutPath</key><string>/path/to/watchlist/data/logs/run.log</string>
-  <key>StandardErrorPath</key><string>/path/to/watchlist/data/logs/run.log</string>
+  <key>StandardOutPath</key><string>/path/to/JobRadar/data/logs/run.log</string>
+  <key>StandardErrorPath</key><string>/path/to/JobRadar/data/logs/run.log</string>
   <key>EnvironmentVariables</key>
   <dict><key>TYPESAFE_API_KEY</key><string></string></dict>
 </dict>

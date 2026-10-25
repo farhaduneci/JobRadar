@@ -1,4 +1,4 @@
-# 🔭 watchlist
+# 🔭 JobRadar
 
 Watch favourite companies' careers pages. Each poll reads the companies' public job boards, finds postings not seen before, screens them
 (title, location, wording rules, optionally an AI fit check against your profile) and alerts you on each new match.
@@ -25,13 +25,13 @@ flowchart LR
 ## 🚀 Setup
 
 ```bash
-git clone <this repo> && cd watchlist
+git clone <this repo> && cd JobRadar
 cp config.example.json config.json      # your title / location / wording rules, AI gate, alert channel
 cp companies.example.json companies.json # your watch list (gitignored, so it stays private)
 cp profile.example.md profile.md        # who you are, for the AI gate (skip if the gate is off)
-python3 -m watchlist add --name Acme --board greenhouse:acme
-python3 -m watchlist run --company acme # silent baseline
-python3 -m watchlist run                # every later run alerts on new matches
+python3 -m jobradar add --name Acme --board greenhouse:acme
+python3 -m jobradar run --company acme # silent baseline
+python3 -m jobradar run                # every later run alerts on new matches
 ```
 
 `companies.example.json` is a sample list; `companies.json` is yours and gitignored. To find a company's board token see [docs/finding-boards.md](docs/finding-boards.md).
@@ -62,7 +62,7 @@ python3 -m watchlist run                # every later run alerts on new matches
 
 ## 🤖 Claude Code skill
 
-`skills/watchlist/SKILL.md` wraps the CLI as a `/watchlist` skill (status, add, remove, run, report, install). Copy it to `~/.claude/skills/watchlist/`.
+`skills/jobradar/SKILL.md` wraps the CLI as a `/jobradar` skill (status, add, remove, run, report, install). Copy it to `~/.claude/skills/jobradar/`.
 
 ## 🧪 Tests
 
@@ -70,7 +70,7 @@ python3 -m watchlist run                # every later run alerts on new matches
 python3 -m pip install pytest && python3 -m pytest -q
 ```
 
-Adding an ATS: a `f_<name>(token)` fetcher in `watchlist/boards.py` returning rows `{id, title, url, loc, date, desc}`, a `FETCHERS` entry, and a test.
+Adding an ATS: a `f_<name>(token)` fetcher in `jobradar/boards.py` returning rows `{id, title, url, loc, date, desc}`, a `FETCHERS` entry, and a test.
 
 ## 📄 License
 

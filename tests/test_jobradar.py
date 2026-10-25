@@ -4,7 +4,7 @@ import json, os, sys, types
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from watchlist import core, llm, screen  # noqa: E402
+from jobradar import core, llm, screen  # noqa: E402
 
 JD = "Python services, Kubernetes. Hybrid in Vilnius."
 GOOD = {"fit": 3.0, "role_match": 0.9, "language_block": 0.1, "eligibility_block": 0.1}

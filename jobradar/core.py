@@ -36,7 +36,7 @@ def judge(cfg, r, company):
 
 def send(cfg, event, dry, **vars):
     """One alert. True only when it went out: a dry run or a delivery failure leaves matches unsent for the next run."""
-    if dry or os.environ.get("WATCHLIST_NOTIFY") == "0":
+    if dry or os.environ.get("JOBRADAR_NOTIFY") == "0":
         print(f"  (not sent: {event} {vars.get('company')})")
         return False
     try:
@@ -204,7 +204,7 @@ def cmd_add(args):
              "titles_extra": [t.strip() for t in (args.titles or "").split(",") if t.strip()], "added": TODAY, "enabled": True}
     data["companies"] = [c for c in data["companies"] if c["slug"] != s] + [entry]
     jsave(COMPANIES, data)
-    print(f"registered {s}; next: python3 -m watchlist run --company {s} (silent baseline)")
+    print(f"registered {s}; next: python3 -m jobradar run --company {s} (silent baseline)")
 
 
 def cmd_remove(args):
@@ -235,7 +235,7 @@ def cmd_report(args):
     runs = [r for r in runs if r["ts"] >= cut]
     flags = []
     watch_rx = re.compile(cfg.get("report", {}).get("technical_title_regex", "engineer|developer"), re.I)
-    print(f"watchlist report, last {args.days} days: {len(runs)} company-runs")
+    print(f"jobradar report, last {args.days} days: {len(runs)} company-runs")
     for c in enabled():
         rs = [r for r in runs if r["company"] == c["slug"]]
         P = jload(os.path.join(STATE, c["slug"] + ".json"), {"postings": {}})["postings"]
@@ -294,7 +294,7 @@ def cmd_scout(args):
     with cf.ThreadPoolExecutor(12) as ex:
         out = list(ex.map(one, todo))
     ok = sorted((o for o in out if o[3] and o[3][1]), key=lambda o: -len(o[3][1]))
-    lines = [f"# Watchlist candidates, {TODAY}", "", f"From `{args.file}`: {len(cos)} companies, {len(todo)} on a readable board.", "",
+    lines = [f"# JobRadar candidates, {TODAY}", "", f"From `{args.file}`: {len(cos)} companies, {len(todo)} on a readable board.", "",
              "| Company | Board | Open | Passing | Example titles |", "|---|---|---|---|---|"]
     lines += [f"| {n} | {ats}:{tok} | {c} | {len(h)} | {'; '.join(sorted(set(h))[:3])} |" for n, ats, tok, (c, h) in ok]
     path = os.path.join(ROOT, "data", f"scout-{TODAY}.md")

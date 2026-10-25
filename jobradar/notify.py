@@ -29,7 +29,7 @@ def deliver(cfg, event, **vars):
         post(f"https://api.telegram.org/bot{tok}/sendMessage",
              urllib.parse.urlencode({"chat_id": chat, "text": text, "disable_web_page_preview": "true"}).encode(), {})
     elif ch == "ntfy":
-        post(f"{n.get('server', 'https://ntfy.sh')}/{n['topic']}", text.encode(), {"Title": f"watchlist: {event}"})
+        post(f"{n.get('server', 'https://ntfy.sh')}/{n['topic']}", text.encode(), {"Title": f"jobradar: {event}"})
     elif ch == "webhook":
         post(n["url"], json.dumps({"event": event, "text": text, **vars}).encode(), {"Content-Type": "application/json"})
     else:
