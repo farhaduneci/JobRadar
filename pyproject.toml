@@ -3,7 +3,7 @@ name = "jobradar"
 version = "0.1.0"
 description = "Poll companies' careers pages, screen new postings, alert on matches"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["radarkit @ git+https://github.com/farhaduneci/RadarKit@v0.1.0"]
 
 [project.optional-dependencies]
 dev = ["pytest"]

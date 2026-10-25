@@ -3,24 +3,15 @@
 Key in $TYPESAFE_API_KEY. The questions live in prompts/jev_questions.json and run against the candidate profile (profile.md) and the posting;
 answers are a fit score and probabilities, ruled on by the thresholds in config.json "llm". Edit the files, not the code.
 """
-import json, os, urllib.request
+import json, os
+
+from radarkit import http, jev
 
 from .paths import ROOT, PROMPTS
 
 
 def read(path):
     return open(path if os.path.isabs(path) else os.path.join(ROOT, path)).read()
-
-
-def post_json(url, body, headers, retries=3):
-    req = urllib.request.Request(url, json.dumps(body).encode(), {"content-type": "application/json", **headers})
-    err = None
-    for _ in range(retries):  # transient failures
-        try:
-            return json.load(urllib.request.urlopen(req, timeout=120))
-        except Exception as e:
-            err = e
-    raise RuntimeError(err)
 
 
 def job_of(r, company):
@@ -32,9 +23,8 @@ def judge(cfg, r, company):
     """Jev's answers for one posting: fit score, role_match, language_block, eligibility_block."""
     llm = cfg["llm"]
     q = json.loads(read(llm.get("questions", os.path.join(PROMPTS, "jev_questions.json"))))
-    a = post_json("https://api.typesafe.ai/v1/systemone",
-                  {"model": llm.get("model", "jev-latest"), "state": {"candidate": read(llm.get("profile", "profile.md")).strip(), "job": job_of(r, company)},
-                   "questions": q}, {"Authorization": f"Bearer {os.environ['TYPESAFE_API_KEY']}"})["answers"]
+    state = {"candidate": read(llm.get("profile", "profile.md")).strip(), "job": job_of(r, company)}
+    a = http.run(jev.ask(state, q, model=llm.get("model", jev.MODEL)))
     return {"fit": a["fit"]["score"], **{k: a[k]["noul"] for k in ("role_match", "language_block", "eligibility_block")}}
 
 
