@@ -118,7 +118,7 @@ reports the board as unreachable instead of switching tools.
     links inline in the page HTML.
 - Ashby example: the page names no ATS in plain text; only `ashby_jid=` query params in its links give it away. Guessing the bare slug also works, and the posting count should match the page's "N open positions".
 
-### Big-tech boards without a public ATS (verified 2026-10-23; fetchers in `jobradar/boards.py`, token = location)
+### Big-tech boards without a public ATS (verified 2026-10-23; fetchers in RadarKit `radarkit/boards/bigtech.py`, token = location or `*`)
 
 - **Apple** `apple:<location-slug>`: `jobs.apple.com/en-gb/search?location=<slug>&page=N` embeds the results as `JSON.parse("...")` in the HTML (the `/api/v1/search` POST returns empty without the SPA's session). Slug as in the search URL, `<country>-<CODE>` (check the code: a wrong one silently returns another country). Retail roles are titled `TR-Expert`, `TR-Specialist`, `TR-Technical Specialist`; set `no_llm` and `titles_extra` on the company entry.
 - **Google** `google:<city>`: `google.com/about/careers/applications/jobs/results/?location=<city>&page=N`, 20 a page, results in `AF_initDataCallback` block `ds:1`. Titles carry the languages, e.g. "(English, German)".

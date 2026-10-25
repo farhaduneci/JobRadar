@@ -2,13 +2,13 @@
 
 Watch favourite companies' careers pages. Each poll reads the companies' public job boards, finds postings not seen before, screens them
 (title, location, wording rules, optionally an AI fit check against your profile) and alerts you on each new match.
-Pure standard library Python, no database, no scraping browser.
+Pure standard library Python on top of [RadarKit](https://github.com/farhaduneci/RadarKit) (the shared board fetchers, alert channels and Jev client), no database, no scraping browser.
 
 ## ⚙️ How it works
 
 ```mermaid
 flowchart LR
-    A[companies.json] --> B[boards.py<br/>ATS fetchers]
+    A[companies.json] --> B[RadarKit boards<br/>ATS fetchers]
     B --> C[diff vs<br/>data/state]
     C -->|new postings| D[cheap gates<br/>config.json]
     D --> E[AI gate<br/>Jev]
@@ -20,12 +20,13 @@ flowchart LR
 - 💾 **AI cache**: a job description is judged once; the same posting in another location reuses the answer.
 - 🩺 **Health report**: `report` digests the run log and flags a silent scheduler, suspect boards, undelivered matches, and technical-looking titles the gate dropped.
 
-📋 Supported boards: Greenhouse, Ashby, Lever, Recruitee, Personio, Workable, SmartRecruiters, Join, Teamtailor, plus location searches on Apple, Google and Microsoft careers.
+📋 Supported boards: every board RadarKit reads: Greenhouse, Ashby, Lever, Recruitee, Personio, Workable, SmartRecruiters, Join, Teamtailor, Gem, Workday, Oracle, Eightfold, Jibe, TalentBrew, plus Apple, Google, Microsoft and Amazon careers searches. See [RadarKit's board list](https://github.com/farhaduneci/RadarKit#%EF%B8%8F-supported-boards) for tokens.
 
 ## 🚀 Setup
 
 ```bash
 git clone <this repo> && cd JobRadar
+python3 -m pip install -e .                # installs RadarKit, the one dependency
 cp config.example.json config.json      # your title / location / wording rules, AI gate, alert channel
 cp companies.example.json companies.json # your watch list (gitignored, so it stays private)
 cp profile.example.md profile.md        # who you are, for the AI gate (skip if the gate is off)
@@ -70,7 +71,7 @@ python3 -m jobradar run                # every later run alerts on new matches
 python3 -m pip install pytest && python3 -m pytest -q
 ```
 
-Adding an ATS: a `f_<name>(token)` fetcher in `jobradar/boards.py` returning rows `{id, title, url, loc, date, desc}`, a `FETCHERS` entry, and a test.
+Adding an ATS: fetchers live in [RadarKit](https://github.com/farhaduneci/RadarKit) (`radarkit/boards/`): add it there with a fixture test, tag a release, bump the pin in `pyproject.toml`.
 
 ## 📄 License
 

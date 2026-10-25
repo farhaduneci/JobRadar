@@ -16,7 +16,7 @@ verdict), `data/runs.jsonl` (one line per company per poll). Pick the mode from 
 ## add `<company or careers URL>`
 1. Find every board the company posts on (`docs/finding-boards.md`). Often several: a global board plus per-country ones. Done when each
    board's count is known and the sum matches what the careers page shows.
-2. The board must be one `boards.py` reads (`FETCHERS`). For any other ATS add a fetcher with a test first.
+2. The board must be one RadarKit reads (`radarkit.boards.FETCHERS`). For any other ATS add a fetcher to RadarKit with a test first.
 3. `python3 -m jobradar add --name <Name> --careers-url <url> --board <ats>:<token> [--board ...]`. It probes each board and refuses a dead one.
 4. Baseline: `python3 -m jobradar run --company <slug>`. It screens what is open, sends nothing, marks it seen, so only later postings alert.
 5. Show the roles matching right now (`list`).
